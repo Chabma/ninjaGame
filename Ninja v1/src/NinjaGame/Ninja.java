@@ -4,12 +4,14 @@
 	        //In Java, Class Variables should be private so that only its methods can change them.
 		private int centerX = 100;
 		private int centerY = 402;
-		private boolean jumped = false;
+		private int jumped = 0;
 
 		private int speedrightX = 0;
 		private int speedleftX = 0;
 		private int speedY = 1;
-
+		Sword sword = new Sword();
+		Shuriken shuriken = new Shuriken();
+		private int shurikenNumber;
 		public void update() {
 
 			// Moves Character 
@@ -24,13 +26,13 @@
 	                }
 
 			// Handles Jumping
-			if (jumped == true) {
+			if (jumped > 0) {
 				speedY += 1;
 
 				if (centerY + speedY >= 382) {
 					centerY = 382;
 					speedY = 0;
-					jumped = false;
+					jumped = 0;
 				}
 
 			}
@@ -61,9 +63,9 @@
 			speedrightX = 0;
 		}
 		public void jump() {
-			if (jumped == false) {
+			if (jumped < 2) {
 				speedY = -15;
-				jumped = true;
+				jumped = jumped + 1;
 			}
 		}	
 		public int getCenterX(){
@@ -74,7 +76,12 @@
 		}
 
 		public boolean isJumped() {
-			return jumped;
+			if (jumped > 0){
+				return true;
+				}
+			else{
+				return false;
+			}
 		}
 
 		public int getSpeedX() {
@@ -92,7 +99,7 @@
 			this.centerY = centerY;
 		}
 
-		public void setJumped(boolean jumped) {
+		public void setJumped(int jumped) {
 			this.jumped = jumped;
 		}
 

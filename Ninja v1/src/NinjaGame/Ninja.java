@@ -1,7 +1,7 @@
 	package NinjaGame;
 
 	public class Ninja {
-	        //In Java, Class Variables should be private so that only its methods can change them.
+		
 		private int centerX = 100;
 		private int centerY = 402;
 		private int jumped = 0;

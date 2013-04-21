@@ -8,6 +8,7 @@ import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.net.URL;
+import java.lang.Math.*;
 
 public class Starter extends Applet implements Runnable , KeyListener{
 	/**
@@ -17,7 +18,8 @@ public class Starter extends Applet implements Runnable , KeyListener{
 	private int room = 1;
 	private boolean playerIsAlive;
 	Ninja ninja = new Ninja();
-	private Image image, character;
+	Level zone = new Level() ;
+	private Image image, character, door;
 	private Graphics second;
 	private URL base;
 	
@@ -37,6 +39,7 @@ public class Starter extends Applet implements Runnable , KeyListener{
 
 			// Image Setups
 			character = getImage(base, "data/character.png");
+			door = getImage(base, "data/door.png");
 	}
 	 @Override
 	   public void start() {
@@ -57,6 +60,10 @@ public class Starter extends Applet implements Runnable , KeyListener{
 		   public void run() {
 			   while (true) {
 			ninja.update();
+			if (Math.abs(ninja.getCenterX() - zone.getDoorCenterX()) < 5 &&
+				Math.abs(ninja.getCenterY() - zone.getDoorCenterY() - 17) < 5) {
+				zone.nextLevel();
+			}
 			repaint();
 			try {
 				Thread.sleep(17);
@@ -86,9 +93,11 @@ public class Starter extends Applet implements Runnable , KeyListener{
 
 			@Override
 			public void paint(Graphics g) {
-				g.drawImage(character, ninja.getCenterX() - 31, ninja.getCenterY() - 23, this);
-
-			}
+				g.drawImage(door, zone.getDoorCenterX() - 31, zone.getDoorCenterY() - 23, this);
+				g.drawImage(character, ninja.getCenterX() - 31, ninja.getCenterY() - 23, this); 
+				g.drawString(zone.getRoom() +"", 400,400);
+				}
+			
 	public void keyPressed(KeyEvent e){
 		  switch (e.getKeyCode()) {
 
@@ -125,17 +134,5 @@ public void keyReleased(KeyEvent e){
 public void keyTyped(KeyEvent e){
 	
 }
-	public void winLevel(){
-		//stop
-		nextLevel();
-		//resume
-	}
-	public void nextLevel() {
-		room = room + 1;
-		chooseLevel (room);
-	}
-	public void chooseLevel(int room){
-		//picks a level based on room number and random number
-		
-	}
 }
+	

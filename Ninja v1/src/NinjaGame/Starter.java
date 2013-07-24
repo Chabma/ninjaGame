@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.net.URL;
 import java.lang.Math.*;
+import java.awt.Rectangle;
 
 public class Starter extends Applet implements Runnable , KeyListener{
 	/**
@@ -19,6 +20,8 @@ public class Starter extends Applet implements Runnable , KeyListener{
 	private boolean playerIsAlive;
 	Ninja ninja = new Ninja();
 	Level zone = new Level() ;
+	Platform plat = new Platform(500,230,300,20);
+	Platform platTwo = new Platform(0,300, 200, 20);
 	private Image image, character, door;
 	private Graphics second;
 	private URL base;
@@ -65,6 +68,23 @@ public class Starter extends Applet implements Runnable , KeyListener{
 				zone.nextLevel();
 			}
 			repaint();
+			if (ninja.rect.intersects(plat.rect)){
+				if (plat.checkUpperCollision(ninja.rect)&& ninja.getSpeedY() > 0){
+					ninja.setSpeedY(0);
+					ninja.setJumped(0);
+					ninja.setCenterY(plat.getY());
+				}
+			}
+			if (ninja.rect.intersects(platTwo.rect)){
+				if (platTwo.checkUpperCollision(ninja.rect)&& ninja.getSpeedY() > 0){
+					ninja.setSpeedY(0);
+					ninja.setJumped(0);
+					ninja.setCenterY(platTwo.getY());
+				}
+			}
+			if (ninja.rect.intersects(platTwo.rect)== false && ninja.rect.intersects(plat.rect)== false && ninja.isJumped() == false && ninja.getCenterY()!= 382){
+				ninja.setJumped(1);
+			}
 			try {
 				Thread.sleep(17);
 			} catch (InterruptedException e) {
@@ -96,7 +116,11 @@ public class Starter extends Applet implements Runnable , KeyListener{
 				g.drawImage(door, zone.getDoorCenterX() - 31, zone.getDoorCenterY() - 23, this);
 				g.drawImage(character, ninja.getCenterX() - 31, ninja.getCenterY() - 23, this); 
 				g.drawString(zone.getRoom() +"", 400,400);
-				}
+				g.drawRect((int)plat.rect.getX(), (int)plat.rect.getY(), (int)plat.rect.getWidth(), (int)plat.rect.getHeight());
+				g.drawRect((int)platTwo.rect.getX(), (int)platTwo.rect.getY(), (int)platTwo.rect.getWidth(), (int)platTwo.rect.getHeight());
+				g.drawRect((int)ninja.rect.getX(), (int)ninja.rect.getY(), (int)ninja.rect.getWidth(), (int)ninja.rect.getHeight());
+				g.drawRect((int)0,(int)382,2000, 0);
+			}
 			
 	public void keyPressed(KeyEvent e){
 		  switch (e.getKeyCode()) {
@@ -127,7 +151,7 @@ public void keyReleased(KeyEvent e){
  			break;
 
 		case KeyEvent.VK_UP:
-	 		System.out.println("Stop jumping");
+	 		System.out.println(ninja.getJumped());
 	 		break;
 	}
 }

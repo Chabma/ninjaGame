@@ -1,14 +1,16 @@
 	package NinjaGame;
 
+	import java.awt.Rectangle;
+	
 	public class Ninja {
 		
 		private int centerX = 100;
 		private int centerY = 402;
-		private int jumped = 0;
-
+		private double jumped = 0;
+		public static Rectangle rect = new Rectangle(0, 0, 0, 0);
 		private int speedrightX = 0;
 		private int speedleftX = 0;
-		private int speedY = 1;
+		private double speedY = 1;
 		Sword sword = new Sword();
 		Shuriken shuriken = new Shuriken();
 		private int shurikenNumber;
@@ -27,7 +29,7 @@
 
 			// Handles Jumping
 			if (jumped > 0) {
-				speedY += 1;
+				speedY += .7;
 
 				if (centerY + speedY >= 382) {
 					centerY = 382;
@@ -45,6 +47,7 @@
 			if (centerX + speedleftX + speedrightX >= 790) {
 				centerX = 789;
 			}
+			rect.setRect(centerX - 32, centerY - 24 , 28,28 );
 		}
 
 		public void moveRight() {
@@ -83,11 +86,13 @@
 				return false;
 			}
 		}
-
+		public double getJumped() {
+			return jumped;
+		}
 		public int getSpeedX() {
 			return speedleftX + speedrightX;
 		}
-		public int getSpeedY() {
+		public double getSpeedY() {
 			return speedY;
 		}
 
@@ -99,13 +104,17 @@
 			this.centerY = centerY;
 		}
 
-		public void setJumped(int jumped) {
+		public void setJumped(double jumped) {
 			this.jumped = jumped;
 		}
 
 
-		public void setSpeedY(int speedY) {
+		public void setSpeedY(double speedY) {
 			this.speedY = speedY;
+		}
+
+		public double getjumped() {
+			return jumped;
 		}				
 	}
 
